@@ -1,4 +1,4 @@
-from src import card
+from src.card import Card
 
 
 class Table:
@@ -23,14 +23,14 @@ class Table:
                 p.cards += card
 
     def get_random_card(self):
-        card = card.Card()
+        card = Card()
         while card in self.cards:
             card = card.Card()
         self.cards += card
         return card.Card()
 
     def take_card_on_table(self):
-        card = card.Card()
+        card = Card()
         self.table_cards += card
 
     def pre_flop(self):
@@ -38,7 +38,7 @@ class Table:
             p.ask_player()
 
     def flop(self):
-        for i in range(3)
+        for i in range(3):
             self.take_card_on_table()
         for p in self.players:
             p.ask_player()

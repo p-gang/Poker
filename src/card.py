@@ -14,6 +14,21 @@ class Card:
             self.suit = suit
             self.rank = rank
 
+    def __repr__(self):
+        return str(self.suit) + " : " + str(self.rank)
+
+    def __eq__(self, other):
+        if self.get_rank() == self.get_rank():
+            return True
+
+    def __lt__(self, other):
+        if self.get_rank() < self.get_rank():
+            return True
+
+    def __gt__(self, other):
+        if self.get_rank() > self.get_rank():
+            return True
+
     def get_rank(self):
         return self.rank
 

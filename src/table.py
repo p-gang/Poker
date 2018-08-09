@@ -1,4 +1,4 @@
-from src import Card
+from src import card
 
 
 class Table:
@@ -23,14 +23,14 @@ class Table:
                 p.cards += card
 
     def get_random_card(self):
-        card = Card.Card()
+        card = card.Card()
         while card in self.cards:
-            card = Card.Card()
+            card = card.Card()
         self.cards += card
-        return Card.Card()
+        return card.Card()
 
     def take_card_on_table(self):
-        card = Card.Card()
+        card = card.Card()
         self.table_cards += card
 
     def pre_flop(self):

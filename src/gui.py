@@ -1,38 +1,25 @@
-from PyQt5.QtWidgets import QMainWindow, QFrame, QDesktopWidget
-from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
-from PyQt5.QtGui import QPainter
-
-class Game(QFrame):
-    def keyPressEvent(self, event):
-        key = event.key()
-
-        if key == Qt.Key_Left:
-           pass
-        else:
-            pass
-
-    def update_status(self):
-       pass
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
 
 
-class PokerWindow(QMainWindow):
+class App(QWidget):
 
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
-
+        self.title = 'PyQt5 simple window - pythonspot.com'
+        self.left = 10
+        self.top = 10
+        self.width = 640
+        self.height = 480
         self.initUI()
 
     def initUI(self):
-        self.setCentralWidget(self.Game)
-
-
-        self.setWindowTitle('Poker')
-        self.resize(600, 600)
-        self.center()
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
         self.show()
 
-    def center(self):
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+
+
+app = QApplication(sys.argv)
+ex = App()
+sys.exit(app.exec_())

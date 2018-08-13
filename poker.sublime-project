@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"build_systems": 
+	[
+	  	{
+	    "name": "Poker",
+	    "cmd": ["python", "-u", "run.py"],
+	    "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+	    "selector": "source.python"
+	  	}
+	]
+}

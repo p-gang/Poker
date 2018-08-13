@@ -14,4 +14,5 @@ class PokerWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle(self.title)
+        self.setStyleSheet("background: url(images/index.jpg)")
         self.showFullScreen()

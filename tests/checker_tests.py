@@ -55,13 +55,6 @@ def test_is_full_house(checker):
     cards = [Card(2, 'Spades'), Card(9, "Hearts"), Card(9, 'Clubs'), Card(1, 'Diamonds')]
     assert checker.is_full_house(hand, cards) == (6, 2, 9)
 
-
-def test_is_full_house_not_three(checker):
-    hand = [Card(4, 'Spades'), Card(10, 'Spades')]
-    cards = [Card(10, 'Hearts'), Card(10, "Diamonds"), Card(2, 'Diamonds'), Card(3, 'Diamonds')]
-    assert checker.is_full_house(hand, cards) is None
-
-
 def test_is_four(checker):
     hand = [Card(10, 'Clubs'), Card(10, 'Spades')]
     cards = [Card(10, 'Hearts'), Card(10, "Diamonds"), Card(2, 'Diamonds'), Card(3, 'Diamonds')]
@@ -82,7 +75,7 @@ def test_is_straight_flush_start_from_ace(checker):
 
 def test_is_straight_flush_with_four_cards(checker):
     hand = [Card(3, 'Hearts'), Card(4, 'Hearts')]
-    cards = [Card(2, 'Hearts'), Card(13, "Hearts"), Card(1, 'Hearts'), Card(8, 'Diamonds')]
+    cards = [Card(2, 'Hearts'), Card(13, "Clubs"), Card(1, 'Hearts'), Card(8, 'Diamonds')]
     assert checker.is_straight_flush(hand, cards) is None
 
 
@@ -90,3 +83,16 @@ def test_is_flush_royal(checker):
     hand = [Card(14, 'Hearts'), Card(13, 'Hearts')]
     cards = [Card(12, 'Hearts'), Card(11, "Hearts"), Card(10, 'Hearts'), Card(8, 'Diamonds')]
     assert checker.is_flush_royal(hand, cards) == 9
+
+def test_no_combinations(checker):
+    hand = [Card(1, 'Hearts'), Card(10, 'Diamonds')]
+    cards = [Card(12,'Hearts'), Card(5, 'Clubs'), Card(7, 'Spades'), Card(14, 'Diamonds'), Card(6, "Hearts")]
+    assert checker.is_flush_royal(hand, cards) is None
+
+def test_is_straight_from_full_house(checker):
+    hand = [Card(5, 'Spades'), Card(6, 'Spades')]
+    cards = [Card(4, 'Hearts'), Card(7, "Diamonds"), Card(3, 'Spades'), Card(3, 'Diamonds')]
+    assert checker.is_flush_royal(hand, cards) == (4, 7)
+
+
+

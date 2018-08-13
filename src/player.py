@@ -7,6 +7,13 @@ class Player(Entity):
     def __init__(self):
         self.cards = ()
         self.money = 0
+        self.combination = []
+
+    def get_combination(self):
+        return self.combination
+
+    def set_combination(self, combination):
+        self.combination = combination
 
     def check(self):
         pass

@@ -10,6 +10,7 @@ class Checker:
         for i in range(14, 0, -1):
             if ranks.count(i) == 2:
                 return 1, i
+        return None
 
     def is_two_pair(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
@@ -20,6 +21,7 @@ class Checker:
                 pair_ranks.append(i)
             if len(pair_ranks) == 2:
                 return [2, ] + pair_ranks
+        return self.is_pair(hand, cards)
 
     def is_three(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
@@ -27,6 +29,7 @@ class Checker:
         for i in range(14, 0, -1):
             if ranks.count(i) == 3:
                 return 3, i
+        return self.is_two_pair(hand, cards)
 
     def is_straight(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
@@ -39,6 +42,7 @@ class Checker:
 
         if max_rank is not None:
             return 4, max_rank
+        return self.is_three(hand, cards)
 
     def is_flush(self, hand, cards):
         suits = [x.get_suit() for x in hand + cards]
@@ -46,6 +50,7 @@ class Checker:
         for suit in ("Hearts", "Diamonds", "Clubs", "Spades"):
             if suits.count(suit) == 5:
                 return 5, suit
+        return self.is_straight(hand, cards)
 
     def is_full_house(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
@@ -58,6 +63,7 @@ class Checker:
         for i in range(14, 0, -1):
             if ranks.count(i) == 3 and i != pair_rank and pair_rank != -1:
                 return (6, pair_rank, i)
+        return self.is_flush(hand,cards)
 
     def is_four(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
@@ -65,6 +71,7 @@ class Checker:
         for i in range(14, 0, -1):
             if ranks.count(i) == 4:
                 return 7, i
+        return self.is_full_house(hand, cards)
 
     def is_straight_flush(self, hand, cards):
         hearts, spades, diamonds, clubs = self.separate_ranks_by_suits(hand, cards)
@@ -78,7 +85,7 @@ class Checker:
 
             if max_rank is not None:
                 return 8, max_rank
-            return None
+        return self.is_four(hand, cards)
 
     def is_flush_royal(self, hand, cards):
         hearts, spades, diamonds, clubs = self.separate_ranks_by_suits(hand, cards)
@@ -92,7 +99,7 @@ class Checker:
 
             if max_rank == 14:
                 return 9
-            return None
+        return self.is_straight_flush(hand, cards)
 
     def separate_ranks_by_suits(self, hand, cards):
         hearts, spades, diamonds, clubs = [], [], [], []
@@ -116,3 +123,6 @@ class Checker:
             if len(items) >= 5:
                 return items[-1]
         return None
+
+    def find_combination(self, hand, cards):
+        return self.is_flush_royal(hand, cards)

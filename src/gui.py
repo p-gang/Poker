@@ -1,4 +1,15 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import *
+
+
+class Game(QGraphicsScene):
+
+    def __init__(self):
+        super().__init__()
+
+        self.set_scene()
+
+    def set_scene(self):
+        pass
 
 
 class PokerWindow(QMainWindow):
@@ -14,5 +25,5 @@ class PokerWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle(self.title)
-        self.setStyleSheet("background: url(images/index.jpg)")
+
         self.showFullScreen()

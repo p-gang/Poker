@@ -21,6 +21,9 @@ class App:
         self.mouse_handlers = []
         self.menu_buttons = []
 
+        music = pygame.mixer.music.load('sounds/stressed_out.ogg')
+        pygame.mixer.music.play(-1, 0.0)
+
         self.create_menu()
 
     def run(self):

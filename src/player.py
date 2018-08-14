@@ -5,7 +5,7 @@ from src.entity import Entity
 class Player(Entity):
 
     def __init__(self, index):
-        self.cards = ()
+        self.cards = []
         self.money = 2000
         self.combination = []
         self.big_blind = False

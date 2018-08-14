@@ -1,6 +1,5 @@
 from src.card import Card
 from src.checker import Checker
-from src.game import Game
 
 def check_better_combination(self, combination1, combination2, player1, player2):
     if combination1 == 2:
@@ -36,18 +35,18 @@ class Table:
                 player.small_blind = False
                 x = player.index
                 if x - 1 < 0:
-                    player[len(self.players) - 1].small_blind = True
-                    small_blind_player = player[len(self.players) - 1]
+                    self.players[len(self.players) - 1].small_blind = True
+                    small_blind_player = self.players[len(self.players) - 1]
                 else:
                     small_blind_player = self.players[x - 1]
-                    player[x - 1].small_blind = True
+                    self.players[x - 1].small_blind = True
 
                 player.big_blind = True
                 big_blind_player = player
                 if x + 1 >= len(self.players):
-                    player[0].big_blind = False
+                    self.players[0].big_blind = False
                 else:
-                    player[x + 1].big_blind = False
+                    self.players[x + 1].big_blind = False
         return small_blind_player, big_blind_player
 
 
@@ -58,17 +57,17 @@ class Table:
         self.bank = self.blind[1] + self.blind[0]
 
     def take_cards(self):
-        for p in self.players:
+        for player in self.players:
             for i in range(2):
                 card = self.get_random_card()
-                p.cards += card
+                player.cards.append(card)
 
     def get_random_card(self):
         card = Card()
         while card in self.cards:
-            card = card.Card()
-        self.cards += card
-        return card.Card()
+            card = Card()
+        self.cards.append(card)
+        return self.cards
 
     def take_card_on_table(self):
         card = Card()
@@ -80,7 +79,7 @@ class Table:
         if len(self.players) == 1:
             self.players[0].money += self.bank
             bank = 0
-            Game.start_game()
+        return self.flop()
 
 
     def flop(self):
@@ -91,7 +90,8 @@ class Table:
         if len(self.players) == 1:
             self.players[0].money += self.bank
             bank = 0
-            Game.start_game()
+            return True
+        return self.turn()
 
     def turn(self):
         self.take_card_on_table()
@@ -100,7 +100,9 @@ class Table:
         if len(self.players) == 1:
             self.players[0].money += self.bank
             bank = 0
-            Game.start_game()
+            return True
+
+        return self.river()
 
 
     def river(self):
@@ -110,7 +112,8 @@ class Table:
         if len(self.players) == 1:
             self.players[0].money += self.bank
             bank = 0
-            Game.start_game()
+            return True
+        return self.winner()
 
 
     def winner(self):
@@ -128,3 +131,4 @@ class Table:
                 player_win = ans[1]
         player_win.money += self.bank
         self.bank = 0
+        return True

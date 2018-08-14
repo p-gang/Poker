@@ -1,6 +1,6 @@
 from src.card import Card
 from src.checker import Checker
-
+from src.game import Game
 
 def check_better_combination(self, combination1, combination2, player1, player2):
     if combination1 == 2:
@@ -28,6 +28,30 @@ class Table:
         self.table_cards = []
         self.bet = 0
 
+    def change_blind(self):
+        small_blind_player = None
+        big_blind_player = None
+        for player in self.players:
+            if player.small_blind == True:
+                player.small_blind = False
+                x = player.index
+                if x - 1 < 0:
+                    player[len(self.players) - 1].small_blind = True
+                    small_blind_player = player[len(self.players) - 1]
+                else:
+                    small_blind_player = self.players[x - 1]
+                    player[x - 1].small_blind = True
+
+                player.big_blind = True
+                big_blind_player = player
+                if x + 1 >= len(self.players):
+                    player[0].big_blind = False
+                else:
+                    player[x + 1].big_blind = False
+        return small_blind_player, big_blind_player
+
+
+
     def take_blind(self, big_blind_player, small_blind_player):
         big_blind_player.money -= self.blind[1]
         small_blind_player.money -= self.blind[0]
@@ -53,22 +77,40 @@ class Table:
     def pre_flop(self):
         for p in self.players:
             p.ask_player()
+        if len(self.players) == 1:
+            self.players[0].money += self.bank
+            bank = 0
+            Game.start_game()
+
 
     def flop(self):
         for i in range(3):
             self.take_card_on_table()
         for p in self.players:
             p.ask_player()
+        if len(self.players) == 1:
+            self.players[0].money += self.bank
+            bank = 0
+            Game.start_game()
 
     def turn(self):
         self.take_card_on_table()
         for p in self.players:
             p.ask_player()
+        if len(self.players) == 1:
+            self.players[0].money += self.bank
+            bank = 0
+            Game.start_game()
+
 
     def river(self):
         self.take_card_on_table()
         for p in self.players:
             p.ask_player()
+        if len(self.players) == 1:
+            self.players[0].money += self.bank
+            bank = 0
+            Game.start_game()
 
 
     def winner(self):

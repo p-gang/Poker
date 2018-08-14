@@ -4,10 +4,13 @@ from src.entity import Entity
 
 class Player(Entity):
 
-    def __init__(self):
+    def __init__(self, index):
         self.cards = ()
-        self.money = 0
+        self.money = 2000
         self.combination = []
+        self.big_blind = False
+        self.small_blind = False
+        self.index = index
 
     def get_combination(self):
         return self.combination

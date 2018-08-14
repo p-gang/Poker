@@ -1,23 +1,20 @@
-import pygame
 import sys
 
+import pygame
+
 from src.gui.button import Button
+from src.gui.scene import Scene
 
 
-class MainMenu:
+class MainMenu(Scene):
     done = False
 
-    def __init__(self, frame_rate, size):
-        self.frame_rate = frame_rate
-        self.bg_blured_img = pygame.transform.scale(pygame.image.load("images/bg_blured.png"), size)
+    def __init__(self, frame_rate, size, screen):
+        super().__init__(frame_rate, size, screen)
 
         self.size = size
-        self.clock = pygame.time.Clock()
-        self.objects = []
-        self.mouse_handlers = []
-        self.menu_buttons = []
-        self.screen = pygame.display.set_mode(size)
-
+        self.screen = screen
+        self.bg_img = pygame.transform.scale(pygame.image.load("images/bg_blured.png"), self.size)
         self.create_menu()
         self.run()
 
@@ -37,12 +34,8 @@ class MainMenu:
                 for handler in self.mouse_handlers:
                     handler(event.type, event.pos)
 
-    def draw(self):
-        for object in self.objects:
-            object.draw(self.screen)
-
     def create_menu(self):
-        self.screen.blit(self.bg_blured_img, (0, 0))
+        self.screen.blit(self.bg_img, (0, 0))
         for i, (text, handler) in enumerate((('PLAY', self.on_play),
                                              ('QUIT', self.on_quit))):
             btn = Button((self.size[0] - 130) // 2,
@@ -63,6 +56,9 @@ class MainMenu:
         self.done = True
         for btn in self.menu_buttons:
             self.objects.remove(btn)
+
+        # game = Game()
+        # game.start_game()
 
     def on_quit(self, button):
         sys.exit()

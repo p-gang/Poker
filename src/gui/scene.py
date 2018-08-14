@@ -1,22 +1,21 @@
 import sys
-
 import pygame
 
-from src.gui.menu import MainMenu
-from src.gui.scene import Scene
 
-
-class App(Scene):
+class Scene:
 
     def __init__(self, frame_rate, size, screen):
-        super().__init__(frame_rate, size, screen)
-
-        self.size = size
         self.screen = screen
-        pygame.mixer.music.load('sounds/stressed_out.ogg')
-        pygame.mixer.music.play(-1, 0.0)
 
-        self.create_menu()
+        self.frame_rate = frame_rate
+        self.size = size
+        self.clock = pygame.time.Clock()
+        self.objects = []
+        self.mouse_handlers = []
+        self.menu_buttons = []
+
+        self.bg_img = pygame.transform.scale(pygame.image.load("images/bg.png"), self.size)
+
 
     def run(self):
         while True:
@@ -34,8 +33,14 @@ class App(Scene):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.create_menu()
+
+    def update(self):
+        for object in self.objects:
+            object.update()
+
+    def draw(self):
+        for object in self.objects:
+            object.draw(self.screen)
 
     def create_menu(self):
-        MainMenu(self.frame_rate, self.size, self.screen)
+        pass

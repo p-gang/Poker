@@ -1,4 +1,3 @@
-from operator import attrgetter
 from itertools import groupby
 
 
@@ -7,7 +6,7 @@ class Checker:
     def is_pair(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
 
-        for i in range(14, 0, -1):
+        for i in range(14, 1, -1):
             if ranks.count(i) == 2:
                 return 1, i
         return None
@@ -16,7 +15,7 @@ class Checker:
         ranks = [x.get_rank() for x in hand + cards]
         pair_ranks = []
 
-        for i in range(14, 0, -1):
+        for i in range(14, 1, -1):
             if ranks.count(i) == 2:
                 pair_ranks.append(i)
             if len(pair_ranks) == 2:
@@ -26,7 +25,7 @@ class Checker:
     def is_three(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
 
-        for i in range(14, 0, -1):
+        for i in range(14, 1, -1):
             if ranks.count(i) == 3:
                 return 3, i
         return self.is_two_pair(hand, cards)
@@ -35,7 +34,7 @@ class Checker:
         ranks = [x.get_rank() for x in hand + cards]
 
         if 14 in ranks:
-            ranks.append(0)
+            ranks.append(1)
         sorted_ranks = sorted(set(ranks))
 
         max_rank = self.check_straight(sorted_ranks)
@@ -56,19 +55,20 @@ class Checker:
         ranks = [x.get_rank() for x in hand + cards]
         pair_rank = -1
 
-        for i in range(14, 0, -1):
+        for i in range(14, 1, -1):
             if ranks.count(i) == 2:
                 pair_rank = i
+                break
 
-        for i in range(14, 0, -1):
+        for i in range(14, 1, -1):
             if ranks.count(i) == 3 and i != pair_rank and pair_rank != -1:
-                return (6, pair_rank, i)
-        return self.is_flush(hand,cards)
+                return 6, pair_rank, i
+        return self.is_flush(hand, cards)
 
     def is_four(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
 
-        for i in range(14, 0, -1):
+        for i in range(14, 1, -1):
             if ranks.count(i) == 4:
                 return 7, i
         return self.is_full_house(hand, cards)
@@ -78,7 +78,7 @@ class Checker:
 
         for suit in (hearts, spades, diamonds, clubs):
             if 14 in suit:
-                suit.append(0)
+                suit.append(1)
             sorted_suit = sorted(suit)
 
             max_rank = self.check_straight(sorted_suit)

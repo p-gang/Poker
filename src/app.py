@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from src.gui.menu import MainMenu
+from src.gui.menu import *
 from src.gui.scene import Scene
 
 
@@ -13,10 +13,11 @@ class App(Scene):
 
         self.size = size
         self.screen = screen
+
         pygame.mixer.music.load('sounds/stressed_out.ogg')
         pygame.mixer.music.play(-1, 0.0)
 
-        self.create_menu()
+        self.create_menu("main")
 
     def run(self):
         while True:
@@ -35,7 +36,10 @@ class App(Scene):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.create_menu()
+                self.create_menu("game")
 
-    def create_menu(self):
-        MainMenu(self.frame_rate, self.size, self.screen)
+    def create_menu(self, role):
+        if role == "main":
+            MainMenu(self.frame_rate, self.size, self.screen)
+        elif role == "game":
+            GameMenu(self.frame_rate, self.size, self.screen)

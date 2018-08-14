@@ -11,7 +11,7 @@ class Button(GameObject):
         self.on_click = on_click
 
         self.text = TextObject(x + padding,
-                               y + padding, lambda: text,
+                               y + padding, text,
                                button_text_color,
                                font_name,
                                font_size)

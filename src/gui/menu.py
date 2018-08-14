@@ -34,7 +34,7 @@ class MainMenu(Scene):
                 for handler in self.mouse_handlers:
                     handler(event.type, event.pos)
 
-    def create_menu(self):
+    def create_menu(self, role=""):
         self.screen.blit(self.bg_img, (0, 0))
         for i, (text, handler) in enumerate((('PLAY', self.on_play),
                                              ('QUIT', self.on_quit))):
@@ -62,3 +62,49 @@ class MainMenu(Scene):
 
     def on_quit(self, button):
         sys.exit()
+
+
+class GameMenu(MainMenu):
+    done = False
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.on_play()
+            elif event.type in (pygame.MOUSEBUTTONDOWN,
+                              pygame.MOUSEBUTTONUP,
+                              pygame.MOUSEMOTION):
+                for handler in self.mouse_handlers:
+                    handler(event.type, event.pos)
+
+    def create_menu(self, role=""):
+        self.screen.blit(self.bg_img, (0, 0))
+        for i, (text, handler) in enumerate((('Resume', self.on_resume),
+                                             ('New game', self.on_play),
+                                             ('Back', self.on_back),
+                                             ('QUIT', self.on_quit))):
+            btn = Button((self.size[0] - 130) // 2,
+                         (self.size[1] - 50) // 2 + 65 * i - 65,
+                         130,
+                         50,
+                         text,
+                         (65, 105, 225),
+                         "DejaVuSans",
+                         16,
+                         handler,
+                         padding=5)
+            self.objects.append(btn)
+            self.menu_buttons.append(btn)
+            self.mouse_handlers.append(btn.handle_mouse_event)
+
+    def on_resume(self, button=None):
+        self.done = True
+        for btn in self.menu_buttons:
+            self.objects.remove(btn)
+
+    def on_quit(self, button):
+        sys.exit()
+
+    def on_back(self, button):
+        self.on_resume()
+        MainMenu(self.frame_rate, self.size, self.screen)

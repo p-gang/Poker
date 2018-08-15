@@ -42,5 +42,5 @@ class Scene:
         for object in self.objects:
             object.draw(self.screen)
 
-    def create_menu(self):
+    def create_menu(self, role):
         pass

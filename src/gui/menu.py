@@ -1,22 +1,22 @@
 import sys
 
-import pygame
-
-from src.gui.button import Button
+from src.gui.button import *
 from src.gui.scene import Scene
 from src.game import Game
 
 class MainMenu(Scene):
     done = False
 
-    def __init__(self, frame_rate, size, screen):
+    def __init__(self, frame_rate, size, screen, pause):
         super().__init__(frame_rate, size, screen)
+
+        self.music_control = pause
+        self.BUTTONS = (('PLAY', self.on_play),
+                        ('QUIT', self.on_quit))
 
         self.size = size
         self.screen = screen
         self.bg_img = pygame.transform.scale(pygame.image.load("images/bg_blured.png"), self.size)
-        self.create_menu()
-        self.run()
 
     def run(self):
         while not self.done:
@@ -28,18 +28,24 @@ class MainMenu(Scene):
 
     def handle_events(self):
         for event in pygame.event.get():
-            if event.type in (pygame.MOUSEBUTTONDOWN,
+            if event.type == self.music_control.MUSENDEVENT:
+                self.music_control.start_next()
+            elif event.type in (pygame.MOUSEBUTTONDOWN,
                               pygame.MOUSEBUTTONUP,
                               pygame.MOUSEMOTION):
                 for handler in self.mouse_handlers:
                     handler(event.type, event.pos)
 
-    def create_menu(self):
+    def append_btn(self, btn):
+        self.objects.append(btn)
+        self.menu_buttons.append(btn)
+        self.mouse_handlers.append(btn.handle_mouse_event)
+
+    def create_menu(self, role=""):
         self.screen.blit(self.bg_img, (0, 0))
-        for i, (text, handler) in enumerate((('PLAY', self.on_play),
-                                             ('QUIT', self.on_quit))):
+        for i, (text, handler) in enumerate(self.BUTTONS):
             btn = Button((self.size[0] - 130) // 2,
-                         (self.size[1] - 50) // 2 + 65 * i,
+                         (self.size[1] - 50) // 2 + 65 * i - 65,
                          130,
                          50,
                          text,
@@ -48,9 +54,16 @@ class MainMenu(Scene):
                          16,
                          handler,
                          padding=5)
-            self.objects.append(btn)
-            self.menu_buttons.append(btn)
-            self.mouse_handlers.append(btn.handle_mouse_event)
+            self.append_btn(btn)
+        state = "toggled" if self.music_control.is_paused() else "normal"
+        sound_btn = ToggleButton(self.size[0] - 100, self.size[1] - 100, 50, 50, 'S', (0, 5, 255),
+                                 "DejaVuSans",
+                                 16,
+                                 self.on_sound,
+                                 padding=5,
+                                 state=state)
+        self.append_btn(sound_btn)
+        self.run()
 
     def on_play(self, button):
         self.done = True
@@ -61,5 +74,42 @@ class MainMenu(Scene):
         # game = Game()
         # game.start_game()
 
+    def on_sound(self, button):
+        self.music_control.toggle()
+
     def on_quit(self, button):
         sys.exit()
+
+
+class GameMenu(MainMenu):
+    done = False
+
+    def __init__(self, frame_rate, size, screen, pause):
+        super().__init__(frame_rate, size, screen, pause)
+
+        self.BUTTONS = (('Resume', self.on_resume),
+                        ('New game', self.on_play),
+                        ('Back', self.on_back),
+                        ('QUIT', self.on_quit))
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.on_resume()
+            elif event.type == self.music_control.MUSENDEVENT:
+                self.music_control.start_next()
+            elif event.type in (pygame.MOUSEBUTTONDOWN,
+                                pygame.MOUSEBUTTONUP,
+                                pygame.MOUSEMOTION):
+                for handler in self.mouse_handlers:
+                    handler(event.type, event.pos)
+
+    def on_resume(self, button=None):
+        self.done = True
+        for btn in self.menu_buttons:
+            self.objects.remove(btn)
+
+    def on_back(self, button):
+        self.on_resume()
+        menu = MainMenu(self.frame_rate, self.size, self.screen, self.music_control)
+        menu.create_menu()

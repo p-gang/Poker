@@ -15,6 +15,6 @@ class bot(Player):
 
     def marking_situation(self, hand, bank):
         pass
-    
+
 
 

@@ -1,17 +1,13 @@
 import sys
 
-import pygame, random
+import pygame
 
-from src.gui.menu import MainMenu
+from src.gui.menu import *
+from src.gui.music import MusicController
 from src.gui.scene import Scene
 
 
 class App(Scene):
-
-    SONGS =  (
-        "stressed_out.ogg", "GHOST.ogg", "radioactive.ogg", "SMLT.ogg", "what_is_love.ogg", "SAD!.ogg", "Look_at_me.ogg",
-        "billiejean.ogg"
-    )
 
     def __init__(self, frame_rate, size, screen):
         super().__init__(frame_rate, size, screen)
@@ -19,10 +15,9 @@ class App(Scene):
         self.size = size
         self.screen = screen
 
-        pygame.mixer.music.load('sounds/' + random.choice(self.SONGS))
-        pygame.mixer.music.play(-1, 0.0)
+        self.music_control = MusicController()
 
-        self.create_menu()
+        self.create_menu("main")
 
     def run(self):
         while True:
@@ -41,7 +36,14 @@ class App(Scene):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.create_menu()
+                self.create_menu("game")
+            elif event.type == self.music_control.MUSENDEVENT:
+                self.music_control.start_next()
 
-    def create_menu(self):
-        MainMenu(self.frame_rate, self.size, self.screen)
+    def create_menu(self, role):
+        if role == "main":
+            menu = MainMenu(self.frame_rate, self.size, self.screen, self.music_control)
+            menu.create_menu()
+        elif role == "game":
+            menu = GameMenu(self.frame_rate, self.size, self.screen, self.music_control)
+            menu.create_menu()

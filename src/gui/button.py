@@ -11,7 +11,7 @@ class Button(GameObject):
         self.on_click = on_click
 
         self.text = TextObject(x + padding,
-                               y + padding, lambda: text,
+                               y + padding, text,
                                button_text_color,
                                font_name,
                                font_size)
@@ -51,3 +51,35 @@ class Button(GameObject):
         return dict(normal=(0, 255, 0),
                     hover=(255, 255, 255),
                     pressed=(255, 255, 255))[self.state]
+
+
+class ToggleButton(Button):
+
+    def __init__(self, x, y, w, h, text, button_text_color, font_name, font_size, on_click=lambda x: None, padding=0,
+                 state="normal"):
+        super().__init__(x, y, w, h, text, button_text_color, font_name, font_size, on_click, padding)
+
+        self.state = state
+
+    def handle_mouse_event(self, type, pos):
+        if type == pygame.MOUSEBUTTONDOWN:
+            self.handle_mouse_down(pos)
+
+    def handle_mouse_down(self, pos):
+        if self.bounds.collidepoint(pos):
+            if self.state == 'normal':
+                self.state = "toggled"
+                self.on_click(self)
+            else:
+                self.state = "normal"
+                self.on_click(self)
+
+    @property
+    def back_color(self):
+        return dict(normal=(0, 255, 0),
+                    toggled=(133, 133, 133))[self.state]
+
+    def is_toggled(self):
+        if self.state == "toggled":
+            return True
+        return False

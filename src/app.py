@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from src.gui.menu import *
+from src.gui.music import MusicController
 from src.gui.scene import Scene
 
 
@@ -16,6 +17,7 @@ class App(Scene):
 
         pygame.mixer.music.load('sounds/stressed_out.ogg')
         pygame.mixer.music.play(-1, 0.0)
+        self.pause = MusicController()
 
         self.create_menu("main")
 
@@ -40,6 +42,8 @@ class App(Scene):
 
     def create_menu(self, role):
         if role == "main":
-            MainMenu(self.frame_rate, self.size, self.screen)
+            menu = MainMenu(self.frame_rate, self.size, self.screen, self.pause)
+            menu.create_menu()
         elif role == "game":
-            GameMenu(self.frame_rate, self.size, self.screen)
+            menu = GameMenu(self.frame_rate, self.size, self.screen, self.pause)
+            menu.create_menu()

@@ -28,7 +28,9 @@ class MainMenu(Scene):
 
     def handle_events(self):
         for event in pygame.event.get():
-            if event.type in (pygame.MOUSEBUTTONDOWN,
+            if event.type == self.music_control.MUSENDEVENT:
+                self.music_control.start_next()
+            elif event.type in (pygame.MOUSEBUTTONDOWN,
                               pygame.MOUSEBUTTONUP,
                               pygame.MOUSEMOTION):
                 for handler in self.mouse_handlers:
@@ -93,6 +95,8 @@ class GameMenu(MainMenu):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.on_resume()
+            elif event.type == self.music_control.MUSENDEVENT:
+                self.music_control.start_next()
             elif event.type in (pygame.MOUSEBUTTONDOWN,
                                 pygame.MOUSEBUTTONUP,
                                 pygame.MOUSEMOTION):

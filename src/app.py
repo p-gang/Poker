@@ -15,9 +15,7 @@ class App(Scene):
         self.size = size
         self.screen = screen
 
-        pygame.mixer.music.load('sounds/stressed_out.ogg')
-        pygame.mixer.music.play(-1, 0.0)
-        self.pause = MusicController()
+        self.music_control = MusicController()
 
         self.create_menu("main")
 
@@ -39,11 +37,13 @@ class App(Scene):
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.create_menu("game")
+            elif event.type == self.music_control.MUSENDEVENT:
+                self.music_control.start_next()
 
     def create_menu(self, role):
         if role == "main":
-            menu = MainMenu(self.frame_rate, self.size, self.screen, self.pause)
+            menu = MainMenu(self.frame_rate, self.size, self.screen, self.music_control)
             menu.create_menu()
         elif role == "game":
-            menu = GameMenu(self.frame_rate, self.size, self.screen, self.pause)
+            menu = GameMenu(self.frame_rate, self.size, self.screen, self.music_control)
             menu.create_menu()

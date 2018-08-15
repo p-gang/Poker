@@ -1,6 +1,6 @@
 import sys
 
-import pygame
+import pygame, random
 
 from src.gui.menu import MainMenu
 from src.gui.scene import Scene
@@ -8,12 +8,18 @@ from src.gui.scene import Scene
 
 class App(Scene):
 
+    SONGS =  (
+        "stressed_out.ogg", "GHOST.ogg", "radioactive.ogg", "SMLT.ogg", "what_is_love.ogg", "SAD!.ogg", "Look_at_me.ogg",
+        "billiejean.ogg"
+    )
+
     def __init__(self, frame_rate, size, screen):
         super().__init__(frame_rate, size, screen)
 
         self.size = size
         self.screen = screen
-        pygame.mixer.music.load('sounds/stressed_out.ogg')
+
+        pygame.mixer.music.load('sounds/' + random.choice(self.SONGS))
         pygame.mixer.music.play(-1, 0.0)
 
         self.create_menu()

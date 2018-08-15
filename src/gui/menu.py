@@ -4,7 +4,7 @@ import pygame
 
 from src.gui.button import Button
 from src.gui.scene import Scene
-
+from src.game import Game
 
 class MainMenu(Scene):
     done = False
@@ -56,7 +56,8 @@ class MainMenu(Scene):
         self.done = True
         for btn in self.menu_buttons:
             self.objects.remove(btn)
-
+        game = Game()
+        game.start_game()
         # game = Game()
         # game.start_game()
 

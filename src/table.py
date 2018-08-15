@@ -1,21 +1,17 @@
 from src.card import Card
 from src.checker import Checker
 
-def check_better_combination(self, combination1, combination2, player1, player2):
+def check_better_combination(combination1, combination2, player1, player2):
     if combination1 == 2:
-        if combination1[1] > combination2[1]:
+        if combination1[1] > combination2[1] or combination1[2] > combination2[2]:
             return combination1, player1
-        elif combination1[2] > combination2[2]:
-            return combination1, player1
-        if combination1[1] < combination2[1]:
-            return combination2, player2
-        elif combination1[2] < combination2[2]:
+        if combination1[1] < combination2[1] or combination1[2] < combination2[2]:
             return combination2, player2
     if combination1[1] > combination2[1]:
         return combination1, player1
     elif combination1[1] < combination2[1]:
         return combination2, player2
-
+    return True
 
 class Table:
 
@@ -125,8 +121,10 @@ class Table:
             if player_win is None or winner_combination[0] < player.get_combination()[0]:
                 player_win = player
                 winner_combination = player.get_combination()
-            elif winner_combination[0] == player.get_combination()[0]:
+            if winner_combination[0] == player.get_combination()[0]:
                 ans = check_better_combination(winner_combination, player.get_combination(), player_win, player)[0]
+                if ans == True:
+                    pass
                 winner_combination = ans[0]
                 player_win = ans[1]
         player_win.money += self.bank

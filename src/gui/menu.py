@@ -2,7 +2,7 @@ import sys
 
 from src.gui.button import *
 from src.gui.scene import Scene
-from src.game import Game
+
 
 class MainMenu(Scene):
     done = False
@@ -21,19 +21,24 @@ class MainMenu(Scene):
 
     def run(self):
         while not self.done:
+            self.screen.blit(self.bg_img, (0, 0))
+
             self.handle_events()
             self.draw()
 
             pygame.display.update()
             self.clock.tick(self.frame_rate)
+        self.bg_img = pygame.transform.scale(pygame.image.load("images/bg.png"), self.size)
+        self.screen.blit(self.bg_img, (0, 0))
+
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == self.music_control.MUSENDEVENT:
                 self.music_control.start_next()
             elif event.type in (pygame.MOUSEBUTTONDOWN,
-                              pygame.MOUSEBUTTONUP,
-                              pygame.MOUSEMOTION):
+                                pygame.MOUSEBUTTONUP,
+                                pygame.MOUSEMOTION):
                 for handler in self.mouse_handlers:
                     handler(event.type, event.pos)
 
@@ -105,8 +110,6 @@ class GameMenu(MainMenu):
 
     def on_resume(self, button=None):
         self.done = True
-        for btn in self.menu_buttons:
-            self.objects.remove(btn)
 
     def on_back(self, button):
         self.on_resume()

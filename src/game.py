@@ -4,9 +4,9 @@ from src.player import Player
 
 class Game:
     def __init__(self):
-        player1 = Player(0)
+        player1 = Player(0, 'Kevin')
         player1.small_blind = True
-        player2 = Player(1)
+        player2 = Player(1, 'Adolf')
         player2.big_blind = True
         self.table = Table([player1, player2])
         self.is_dead = False

@@ -70,7 +70,7 @@ class MainMenu(Scene):
         self.done = True
         for btn in self.menu_buttons:
             self.objects.remove(btn)
-
+            
         self.game_control.start_game()
 
     def on_sound(self, button):

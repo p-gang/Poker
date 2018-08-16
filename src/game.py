@@ -6,6 +6,7 @@ from src.table import Table
 
 class Game:
     def __init__(self):
+        self.status = None
         player1 = Player(0, 'Winston')
         player1.small_blind = True
         player2 = Player(1, 'Adolf')

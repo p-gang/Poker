@@ -16,7 +16,7 @@ class App(Scene):
         self.size = size
         self.screen = screen
 
-        self.seats = ((200, 200), (300, 300))
+        self.seats = ((925, 850), (385, 755), (385, 300), (1450, 300), (1450, 755))
         self.music_control = MusicController()
         self.game_control = Game()
         self.game_status = self.game_control.table

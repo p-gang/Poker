@@ -69,10 +69,8 @@ class MainMenu(Scene):
         self.done = True
         for btn in self.menu_buttons:
             self.objects.remove(btn)
-        # game = Game()
-        # game.start_game()
-        # game = Game()
-        # game.start_game()
+        game = Game()
+        game.start_game()
 
     def on_sound(self, button):
         self.music_control.toggle()

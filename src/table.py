@@ -69,7 +69,7 @@ class Table:
 
     def take_card_on_table(self):
         card = Card()
-        self.table_cards += card
+        self.table_cards.append(card)
 
     def pre_flop(self):
         if self.check_on_one_player():

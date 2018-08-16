@@ -22,7 +22,7 @@ class MusicController:
         self.start_next()
 
     def play_song(self, song):
-        pygame.mixer.music.load(song)
+        pygame.mixer.music.load(self.directory + "/" + song)
         pygame.mixer.music.play(1, 0.0)
 
     def toggle(self):

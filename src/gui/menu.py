@@ -7,10 +7,11 @@ from src.game import Game
 class MainMenu(Scene):
     done = False
 
-    def __init__(self, frame_rate, size, screen, pause):
+    def __init__(self, frame_rate, size, screen, game_control, music_control):
         super().__init__(frame_rate, size, screen)
 
-        self.music_control = pause
+        self.game_control = game_control
+        self.music_control = music_control
         self.BUTTONS = (('PLAY', self.on_play),
                         ('QUIT', self.on_quit))
 
@@ -69,10 +70,8 @@ class MainMenu(Scene):
         self.done = True
         for btn in self.menu_buttons:
             self.objects.remove(btn)
-        # game = Game()
-        # game.start_game()
-        # game = Game()
-        # game.start_game()
+
+        self.game_control.start_game()
 
     def on_sound(self, button):
         self.music_control.toggle()
@@ -84,8 +83,8 @@ class MainMenu(Scene):
 class GameMenu(MainMenu):
     done = False
 
-    def __init__(self, frame_rate, size, screen, pause):
-        super().__init__(frame_rate, size, screen, pause)
+    def __init__(self, frame_rate, size, screen, game_control, music_control):
+        super().__init__(frame_rate, size, screen, game_control, music_control)
 
         self.BUTTONS = (('Resume', self.on_resume),
                         ('New game', self.on_play),
@@ -111,5 +110,5 @@ class GameMenu(MainMenu):
 
     def on_back(self, button):
         self.on_resume()
-        menu = MainMenu(self.frame_rate, self.size, self.screen, self.music_control)
+        menu = MainMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
         menu.create_menu()

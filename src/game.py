@@ -13,9 +13,10 @@ class Game:
 
 
     def start_game(self):
-        ans = self.table.change_blind()
-        self.table.take_blind(ans[0], ans[1])
-        self.table.take_cards()
-        self.table.pre_flop()
-        if self.is_dead is True:
-            self.start_game()
+        self.status = "game_start"
+        # ans = self.table.change_blind()
+        # self.table.take_blind(ans[0], ans[1])
+        # self.table.take_cards()
+        # self.table.pre_flop()
+        # if self.is_dead is True:
+        #     self.start_game()

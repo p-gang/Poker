@@ -1,5 +1,4 @@
 import random
-from typing import List, Any, Union
 
 
 class Card:
@@ -18,8 +17,7 @@ class Card:
         return str(self.suit) + " : " + str(self.rank)
 
     def __eq__(self, other):
-        if self.get_rank() == self.get_rank():
-            return True
+        return self.get_rank() == other.get_rank() and self.get_suit() == other.get_suit()
 
     def __lt__(self, other):
         if self.get_rank() < self.get_rank():
@@ -34,5 +32,3 @@ class Card:
 
     def get_suit(self):
         return self.suit
-
-

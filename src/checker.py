@@ -92,13 +92,13 @@ class Checker:
 
         for suit in (hearts, spades, diamonds, clubs):
             if 14 in suit:
-                suit.append(0)
+                suit.append(1)
             sorted_suit = sorted(suit)
 
             max_rank = self.check_straight(sorted_suit)
 
             if max_rank == 14:
-                return 9
+                return 9, 14
         return self.is_straight_flush(hand, cards)
 
     def separate_ranks_by_suits(self, hand, cards):

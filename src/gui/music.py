@@ -10,7 +10,6 @@ class MusicController:
     directory = 'sounds'
     cur_song = None
 
-
     def __init__(self):
         self.paused = False
 

@@ -96,13 +96,15 @@ class Table:
 
     def winner(self):
         self.set_comb()
-        winner_combination = self.players[0].combination
+        winner_combination = [-1, -1]
+        print(self.players)
         player_win = self.players[0]
         for player in self.players:
-            print(player.get_combination())
-            if player_win.get_combination()[0] < player.get_combination()[0]:
+            print(self.players[0].get_combination())
+            if self.players[0].get_combination()[0] < player.get_combination()[0]:
                 player_win = player
                 winner_combination = player.get_combination()
+            print(player.get_combination())
             if winner_combination[0] == player.get_combination()[0]:
                 better_combination = check_better_combination(winner_combination, player.get_combination(), player_win, player)[0]
                 winner_combination = better_combination[0]

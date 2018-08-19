@@ -9,7 +9,7 @@ class Checker:
         for i in range(14, 1, -1):
             if ranks.count(i) == 2:
                 return 1, i
-        return (-1, -1)
+        return -1, -1
 
     def is_two_pair(self, hand, cards):
         ranks = [x.get_rank() for x in hand + cards]
@@ -19,7 +19,7 @@ class Checker:
             if ranks.count(i) == 2:
                 pair_ranks.append(i)
             if len(pair_ranks) == 2:
-                return [2, ] + pair_ranks
+                return (2, *pair_ranks)
         return self.is_pair(hand, cards)
 
     def is_three(self, hand, cards):

@@ -41,6 +41,11 @@ class App(Scene):
                 self.create_menu("game")
             elif event.type == self.music_control.MUSENDEVENT:
                 self.music_control.start_next()
+            elif event.type in (pygame.MOUSEBUTTONDOWN,
+                                pygame.MOUSEBUTTONUP,
+                                pygame.MOUSEMOTION):
+                for handler in self.mouse_handlers:
+                    handler(event.type, event.pos)
 
     def states(self):
         if self.game_control.is_starting:
@@ -56,7 +61,11 @@ class App(Scene):
             self.draw_cards(index, player)
 
     def draw_turn(self):
-        pass
+        menu = TurnMenu(self.frame_rate, self.size, self.screen, self.game_control,
+                        self.music_control, self.game_status, self.objects)
+        menu.create_menu()
+        self.objects = []
+        self.game_control.status = ""
 
     def draw_player(self, index, player):
         obj = PlayerObject(self.seats[index], player.name)
@@ -79,7 +88,6 @@ class App(Scene):
     def create_menu(self, role):
         if role == "main":
             menu = MainMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
-            menu.create_menu()
-        elif role == "game":
+        else:
             menu = GameMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
-            menu.create_menu()
+        menu.create_menu()

@@ -31,7 +31,6 @@ class MainMenu(Scene):
         self.bg_img = pygame.transform.scale(pygame.image.load("images/bg.png"), self.size)
         self.screen.blit(self.bg_img, (0, 0))
 
-
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == self.music_control.MUSENDEVENT:
@@ -73,8 +72,6 @@ class MainMenu(Scene):
 
     def on_play(self, button):
         self.done = True
-        for btn in self.menu_buttons:
-            self.objects.remove(btn)
 
         self.game_control.start_game()
 
@@ -115,3 +112,63 @@ class GameMenu(MainMenu):
         self.on_resume()
         menu = MainMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
         menu.create_menu()
+
+
+class TurnMenu(GameMenu):
+    done = False
+
+    def __init__(self, frame_rate, size, screen, game_control, music_control, game_status, objects):
+        super().__init__(frame_rate, size, screen, game_control, music_control)
+
+        self.objects = objects
+        self.game_status = game_status
+        self.BUTTONS = (('Call', self.on_call),
+                        ('Check', self.on_play),
+                        ('Fold', self.on_fold))
+
+    def run(self):
+        while not self.done:
+            self.handle_events()
+            self.draw()
+
+            pygame.display.update()
+            self.clock.tick(self.frame_rate)
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                menu = GameMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
+                menu.create_menu()
+            elif event.type in (pygame.MOUSEBUTTONDOWN,
+                                pygame.MOUSEBUTTONUP,
+                                pygame.MOUSEMOTION):
+                for handler in self.mouse_handlers:
+                    handler(event.type, event.pos)
+
+    def create_menu(self, role=""):
+        for i, (text, handler) in enumerate(self.BUTTONS):
+            btn = Button(1000 + 110 * i,
+                         700,
+                         90,
+                         50,
+                         text,
+                         (0, 5, 255),
+                         "DejaVuSans",
+                         16,
+                         handler,
+                         padding=5)
+            self.append_btn(btn)
+        self.run()
+
+    def on_call(self, button):
+        sys.exit()
+        self.done = True
+        # self.game_status.call()
+
+    def on_check(self, button):
+        self.done = True
+        # self.game_status.check()
+
+    def on_fold(self, button):
+        self.done = True
+        # self.game_status.fold()

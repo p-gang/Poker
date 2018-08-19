@@ -1,5 +1,5 @@
 from src.player import Player
-from src.table import Table
+
 
 class bot(Player):
 
@@ -32,3 +32,6 @@ class bot(Player):
             return 4
         else:
             return 5
+
+    def marking_situation(self, hand, bank):
+        pass

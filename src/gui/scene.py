@@ -1,4 +1,5 @@
 import sys
+
 import pygame
 
 
@@ -15,7 +16,6 @@ class Scene:
         self.menu_buttons = []
 
         self.bg_img = pygame.transform.scale(pygame.image.load("images/bg.png"), self.size)
-
 
     def run(self):
         while True:

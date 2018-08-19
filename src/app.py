@@ -15,8 +15,10 @@ class App(Scene):
 
         self.size = size
         self.screen = screen
-
-        self.seats = ((925, 850), (385, 755), (385, 300), (1450, 300), (1450, 755))
+        info_obj = pygame.display.Info()
+        kx = 1920 / info_obj.current_w
+        ky = 1080 / info_obj.current_h
+        self.seats = ((925 / kx, 850 / ky), (385 / kx, 755 / ky), (385 / kx, 300 / ky), (1450 / kx, 300 / ky), (1450 / kx, 755 / ky))
         self.music_control = MusicController()
         self.game_control = Game()
         self.game_status = self.game_control.table

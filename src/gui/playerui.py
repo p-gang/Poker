@@ -7,7 +7,10 @@ from src.gui.text import TextObject
 
 class PlayerObject(GameObject):
     def __init__(self, seat, name):
-        super().__init__(*seat, 50, 50)
+        info_obj = pygame.display.Info()
+        kx = 1920 / info_obj.current_w
+        ky = 1080 / info_obj.current_h
+        super().__init__(*seat, 50 / kx, 50 / ky)
 
         x, y = seat
         self.name = name
@@ -17,7 +20,7 @@ class PlayerObject(GameObject):
                                y + padding, name,
                                Color.GREEN.value,
                                "DejaVuSans",
-                               16)
+                               int(16))
 
     def draw(self, screen):
         pygame.draw.rect(screen, Color.GREY.value, self.bounds)

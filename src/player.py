@@ -1,4 +1,4 @@
-from src import table
+
 from src.entity import Entity
 
 

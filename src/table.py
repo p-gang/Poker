@@ -1,7 +1,6 @@
 from src.card import Card
 from src.checker import Checker
-
-
+from src.player import Player
 def check_better_combination(combination1, combination2, player1, player2):
     if combination1 == 2:
         if combination1[1] > combination2[1] or combination1[2] > combination2[2]:
@@ -12,16 +11,14 @@ def check_better_combination(combination1, combination2, player1, player2):
         return combination1, player1
     elif combination1[1] < combination2[1]:
         return combination2, player2
-    return True
-
+    return combination1, player1
 
 class Table:
-
+    _cards = []
     def __init__(self, players):
         self.players = players
         self.bank = 0
         self.blind = [10, 20]
-        self.cards = []
         self.table_cards = []
         self.bet = 0
 
@@ -38,12 +35,12 @@ class Table:
         index = player.index
         self.players[(index + 1) % length].big_blind = False
         self.players[(index + 1) % length].small_blind = True
-        self.players[(index + 2) % length].big_blind = True
+        self.players[(index + 1) % length].big_blind = True
         small_blind_player = self.players[(index + 1) % length]
         big_blind_player = self.players[(index + 2) % length]
         return small_blind_player, big_blind_player
 
-    def take_blind(self, big_blind_player, small_blind_player):
+    def take_blind(self, small_blind_player, big_blind_player):
         big_blind_player.money -= self.blind[1]
         small_blind_player.money -= self.blind[0]
         self.bank = self.blind[1] + self.blind[0]
@@ -56,8 +53,9 @@ class Table:
 
     def get_random_card(self):
         card = Card()
-        while card in self.cards:
+        while card in self._cards:
             card = Card()
+        self._cards.append(card)
         return card
 
     def check_on_one_player(self):
@@ -101,12 +99,12 @@ class Table:
         winner_combination = self.players[0].combination
         player_win = self.players[0]
         for player in self.players:
-            if winner_combination[0] < player.get_combination()[0]:
+            print(player.get_combination())
+            if player_win.get_combination()[0] < player.get_combination()[0]:
                 player_win = player
                 winner_combination = player.get_combination()
             if winner_combination[0] == player.get_combination()[0]:
-                better_combination = \
-                check_better_combination(winner_combination, player.get_combination(), player_win, player)[0]
+                better_combination = check_better_combination(winner_combination, player.get_combination(), player_win, player)[0]
                 winner_combination = better_combination[0]
                 player_win = better_combination[1]
         player_win.money += self.bank

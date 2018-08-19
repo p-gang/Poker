@@ -3,13 +3,14 @@ from src.table import Table
 
 class bot(Player):
 
-    def __init__(self, index):
+    def __init__(self, index, name):
         self.money = 2000
         self.big_blind = False
         self.small_blind = False
         self.cards = []
         self.combination = []
         self.index = index
+        self.name = name
 
     def check_on_same_rank(self, card1, card2):
         return card1.get_rank() == card2.get_rank()

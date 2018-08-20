@@ -19,18 +19,3 @@ class Player(Entity):
     def set_combination(self, combination):
         self.combination = combination
 
-    def check(self):
-        pass
-
-    def fold(self, table):
-        table.players.remove(self)
-
-    def call(self, table):
-        table.bank += table.bet
-        self.money -= table.bet
-
-    def bet(self, table, bet):
-        table.bank += bet
-        self.money -= bet
-        table.bet += bet
-

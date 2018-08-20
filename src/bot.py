@@ -60,7 +60,12 @@ class bot(Player):
     def bot_on_comb_decision(self, table):
         self.set_combination()
         if self.combination[0] > 3:
-            self.bet(table, 200 * self.combination / 10 )
+            self.bet(table, 200 * self.combination[0] / 10)
+        else:
+            if table.bet == 0:
+                self.check()
+            else:
+                self.call()
 
     def check(self):
         pass

@@ -90,11 +90,26 @@ class Table:
     def player_turn(self):
         self.playerturn = True
 
+    def check(self, player):
+        pass
+
+    def call(self, player):
+        self.bank += self.bet
+        player.money -= self.bet
+
+    def bet(self, player):
+        self.bank += self.bet
+        player.money -= self.bet
+        self.bet += self.bet
+
+    def fold(self, player):
+        self.players.remove(player)
+
     def ask_players(self):
         que = self.set_up_que()
         for player in que:
             if player.index == 0:
-                self.player_turn()
+                pass
             else:
                 player.bot_decision(self)
 

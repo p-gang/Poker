@@ -7,7 +7,7 @@ from src.gui.object import GameObject
 class CardObject(GameObject):
     def __init__(self, coord, card, angle):
         super().__init__(*coord, 120, 200)
-        
+
         path = "images/cards/" + card.get_suit().lower()[0] + str(card.get_rank()) + ".png"
 
         self.card_img = pygame.image.load(path)

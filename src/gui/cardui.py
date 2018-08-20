@@ -10,7 +10,7 @@ class CardObject(GameObject):
         self.coord = coord
         self.size = 120, 200
 
-        super().__init__(x + 45, y + 45, *self.size)
+        super().__init__(x, y, *self.size)
 
         path = "images/cards/" + card.get_suit().lower()[0] + str(card.get_rank()) + ".png"
 
@@ -19,7 +19,7 @@ class CardObject(GameObject):
         self.card_img = pygame.transform.rotate(self.card_img, angle)
 
     def draw(self, screen):
-        screen.blit(self.card_img, self.coord)
+        screen.blit(self.card_img, (self.bounds[0], self.bounds[1]))
 
     def update(self):
         pass

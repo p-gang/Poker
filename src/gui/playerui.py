@@ -7,22 +7,19 @@ from src.gui.text import TextObject
 
 class PlayerObject(GameObject):
     def __init__(self, seat, name, money):
-        info_obj = pygame.display.Info()
-        kx = 1920 / info_obj.current_w
-        ky = 1080 / info_obj.current_h
-        super().__init__(*seat, 50 / kx, 50 / ky)
+        super().__init__(*seat, 50, 50)
 
         x, y = seat
 
         padding = 5
-        self.name = TextObject(x + padding,
-                               y + padding, name,
+        self.name = TextObject(self.bounds.x + padding,
+                               self.bounds.y + padding, name,
                                Color.GREEN.value,
                                "DejaVuSans",
                                int(16))
 
-        self.money = TextObject(x + padding - 70,
-                               y + padding + 2, money,
+        self.money = TextObject(self.bounds.x + padding - 70,
+                                self.bounds.y + padding + 2, money,
                                Color.GREEN.value,
                                "DejaVuSans",
                                int(16))

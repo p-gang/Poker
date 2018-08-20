@@ -1,6 +1,6 @@
 from src.player import Player
 from src.table import Table
-
+from src.checker import Checker
 class bot(Player):
 
     def __init__(self, index, name):
@@ -40,18 +40,27 @@ class bot(Player):
     def set_combination(self, combination):
         self.combination = combination
 
+    def set_bot_combination(self, table):
+        check = Checker()
+        self.set_combination(check.find_combination(self.cards, table.table_cards))
+
     def bot_decision(self, table):
         var = self.check_cards()
         if var < 3:
             if table.bet == 0:
-                self.bet(table, var)
+                self.bet(table, 200 / var)
             else:
-                self.cards(table)
+                self.call(table)
         else:
             if table.bet == 0:
                 self.call(table)
             else:
                 self.fold(table)
+
+    def bot_on_comb_decision(self, table):
+        self.set_combination()
+        if self.combination[0] > 3:
+            self.bet(table, 200 * self.combination / 10 )
 
     def check(self):
         pass

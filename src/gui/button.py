@@ -1,4 +1,5 @@
 import pygame
+from pygame.rect import Rect
 
 from src.gui.object import GameObject
 from src.gui.text import TextObject
@@ -7,6 +8,7 @@ from src.gui.text import TextObject
 class Button(GameObject):
     def __init__(self, x, y, w, h, text, button_text_color, font_name, font_size, on_click=lambda x: None, padding=0):
         super().__init__(x, y, w, h)
+        self.bounds = Rect(x, y, w, h)
         self.state = 'normal'
         self.on_click = on_click
 

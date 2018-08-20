@@ -9,8 +9,8 @@ class BetObject(GameObject):
     def __init__(self, x, y, w, h, bet):
         super().__init__(x, y, w, h)
 
-        self.text = TextObject(x + w + 15,
-                               y + 2, "Кто прочитал, тот сдохнет",
+        self.text = TextObject(self.bounds.x + self.bounds.width + 15,
+                               self.bounds.y + 2, "Кто прочитал, тот сдохнет",
                                Color.GREEN.value,
                                "DejaVuSans",
                                int(16))

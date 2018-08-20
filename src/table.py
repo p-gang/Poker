@@ -1,6 +1,6 @@
 from src.card import Card
 from src.checker import Checker
-from src.player import Player
+
 def check_better_combination(combination1, combination2, player1, player2):
     if combination1 == 2:
         if combination1[1] > combination2[1] or combination1[2] > combination2[2]:
@@ -21,12 +21,30 @@ class Table:
         self.blind = [10, 20]
         self.table_cards = []
         self.bet = 0
+        self.playerturn = False
 
     def find_small_blind_player(self):
+        p = self.players[0]
         for player in self.players:
             if player.small_blind:
                 player.small_blind = False
-                return player
+                p = player
+                break
+        return p
+
+    def set_up_que(self):
+        que = []
+        length = len(self.players)
+        que.append(self.find_small_blind_player())
+        ind = que[0].index
+        if ind + 1 <= length:
+            for i in range(ind + 1, length):
+                que.append(self.players[i])
+        if ind - 1 >= 0:
+            for i in range(ind - 1, -1, -1):
+                que.append(self.players[i])
+        return que
+
 
     def change_blind(self):
         length = len(self.players)
@@ -35,7 +53,7 @@ class Table:
         index = player.index
         self.players[(index + 1) % length].big_blind = False
         self.players[(index + 1) % length].small_blind = True
-        self.players[(index + 1) % length].big_blind = True
+        self.players[(index + 2) % length].big_blind = True
         small_blind_player = self.players[(index + 1) % length]
         big_blind_player = self.players[(index + 2) % length]
         return small_blind_player, big_blind_player
@@ -69,23 +87,38 @@ class Table:
         card = self.get_random_card()
         self.table_cards.append(card)
 
+    def player_turn(self):
+        self.playerturn = True
+
+    def ask_players(self):
+        que = self.set_up_que()
+        for player in que:
+            if player.index == 0:
+                self.player_turn()
+            else:
+                player.bot_decision(self)
+
     def pre_flop(self):
+        self.ask_players()
         if self.check_on_one_player():
             return True
 
     def flop(self):
         for i in range(3):
             self.take_card_on_table()
+            self.ask_players()
         if self.check_on_one_player():
             return True
 
     def turn(self):
         self.take_card_on_table()
+        self.ask_players()
         if self.check_on_one_player():
             return True
 
     def river(self):
         self.take_card_on_table()
+        self.ask_players()
         if self.check_on_one_player():
             return True
 
@@ -104,12 +137,11 @@ class Table:
             if player_win.get_combination()[0] < player.get_combination()[0]:
                 player_win = player
                 winner_combination = player.get_combination()
-            print(player.get_combination())
+
             if winner_combination[0] == player.get_combination()[0]:
                 better_combination = check_better_combination(winner_combination, player.get_combination(), player_win, player)
                 winner_combination = better_combination[0]
                 player_win = better_combination[1]
         player_win.money += self.bank
         self.bank = 0
-
         return True

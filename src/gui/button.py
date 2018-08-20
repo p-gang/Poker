@@ -10,8 +10,8 @@ class Button(GameObject):
         self.state = 'normal'
         self.on_click = on_click
 
-        self.text = TextObject(x + padding,
-                               y + padding, text,
+        self.text = TextObject(self.bounds.x + padding,
+                               self.bounds.y + padding, text,
                                button_text_color,
                                font_name,
                                font_size)

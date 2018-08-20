@@ -15,11 +15,11 @@ class CardObject(GameObject):
         path = "images/cards/" + card.get_suit().lower()[0] + str(card.get_rank()) + ".png"
 
         self.card_img = pygame.image.load(path)
-        self.card_img = pygame.transform.scale(self.card_img, self.size)
+        self.card_img = pygame.transform.scale(self.card_img, self.bounds.size)
         self.card_img = pygame.transform.rotate(self.card_img, angle)
 
     def draw(self, screen):
-        screen.blit(self.card_img, (self.bounds[0], self.bounds[1]))
+        screen.blit(self.card_img, (self.bounds.x, self.bounds.y))
 
     def update(self):
         pass

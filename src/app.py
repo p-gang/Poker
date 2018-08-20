@@ -1,4 +1,5 @@
 from src.game import Game
+from src.gui.betui import BetObject
 from src.gui.cardui import CardObject, CardIconObject
 from src.gui.menu import *
 from src.gui.music import MusicController
@@ -15,7 +16,8 @@ class App(Scene):
         info_obj = pygame.display.Info()
         kx = 1920 / info_obj.current_w
         ky = 1080 / info_obj.current_h
-        self.seats = ((925 / kx, 850 / ky), (385 / kx, 755 / ky), (385 / kx, 300 / ky), (1450 / kx, 300 / ky), (1450 / kx, 755 / ky))
+        self.seats = (
+        (925 / kx, 850 / ky), (385 / kx, 755 / ky), (385 / kx, 300 / ky), (1450 / kx, 300 / ky), (1450 / kx, 755 / ky))
         self.music_control = MusicController()
         self.game_control = Game()
         self.game_status = self.game_control.table
@@ -53,7 +55,7 @@ class App(Scene):
         if self.game_control.is_starting:
             self.draw_start()
         if self.game_control.status == "player_turn":
-            self.draw_turn()
+            self.draw_bet()
         if self.game_control.status == "game_cards_taken":
             self.draw_table_cards()
 
@@ -69,8 +71,14 @@ class App(Scene):
         self.objects = []
         self.game_control.status = ""
 
+    def draw_bet(self):
+        bet = 500
+
+        obj = BetObject(925, 720, 25, 25, str(bet))
+        self.objects.append(obj)
+
     def draw_player(self, index, player):
-        obj = PlayerObject(self.seats[index], player.name)
+        obj = PlayerObject(self.seats[index], player.name, str(player.money))
         self.objects.append(obj)
 
     def draw_cards(self, index, player):

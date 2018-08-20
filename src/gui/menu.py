@@ -123,7 +123,7 @@ class TurnMenu(GameMenu):
         self.objects = objects
         self.game_status = game_status
         self.BUTTONS = (('Call', self.on_call),
-                        ('Check', self.on_play),
+                        ('Check', self.on_check),
                         ('Fold', self.on_fold))
 
     def run(self):
@@ -161,7 +161,6 @@ class TurnMenu(GameMenu):
         self.run()
 
     def on_call(self, button):
-        sys.exit()
         self.done = True
         # self.game_status.call()
 

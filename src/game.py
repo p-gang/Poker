@@ -22,18 +22,18 @@ class Game:
         self.table.take_blind(ans[0], ans[1])
         self.table.take_cards()
         self.table.pre_flop()
-        self.status = "player_turn"
         self.table.flop()
+        #{self.status = "player_turn"
         self.status = "game_cards_taken"
-        self.status = "bot_turn"
-        if self.table.playerturn:
-            self.status = "player_turn"
-        self.table.turn()
-        self.status = "game_cards_taken"
-        self.status = "player_turn"
-        self.table.river()
-        self.status = "game_cards_taken"
-        self.status = "player_turn"
-        self.table.winner()
+        #self.status = "bot_turn"
+        #if self.table.playerturn:
+        #self.status = "player_turn"
+        #self.table.turn()
+        #self.status = "game_cards_taken"
+        #self.status = "player_turn"
+        #self.table.river()
+        #self.status = "game_cards_taken"
+        #self.status = "player_turn"
+        #self.table.winner()
         # if self.is_dead is True:
         #     self.start_game()

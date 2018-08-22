@@ -16,8 +16,8 @@ class App(Scene):
         self.seats = (
             (925, 850), (385, 755), (385, 300), (1450, 300), (1450, 755))
         self.music_control = MusicController()
-        self.game_control = Game()
-        self.game_status = self.game_control.table
+        self.game = Game()
+        self.table = self.game.table
 
         self.create_menu("main")
 
@@ -49,24 +49,26 @@ class App(Scene):
                     handler(event.type, event.pos)
 
     def states(self):
-        if self.game_control.is_starting:
+        if self.game.is_starting:
             self.draw_start()
-        if self.game_control.status == "player_turn":
+        if self.game.status == "player_turn":
+            self.draw_turn()
+        if self.game.status == "draw_bet":
             self.draw_bet()
-        if self.game_control.status == "game_cards_taken":
+        if self.game.status == "game_cards_taken":
             self.draw_table_cards()
 
     def draw_start(self):
-        for index, player in enumerate(self.game_status.players):
+        for index, player in enumerate(self.table.players):
             self.draw_player(index, player)
             self.draw_cards(index, player)
 
     def draw_turn(self):
-        menu = TurnMenu(self.frame_rate, self.size, self.screen, self.game_control,
-                        self.music_control, self.game_status, self.objects)
+        menu = TurnMenu(self.frame_rate, self.size, self.screen, self.game,
+                        self.music_control, self.table, self.objects)
         menu.create_menu()
         self.objects = []
-        self.game_control.status = ""
+        self.game.status = ""
 
     def draw_bet(self):
         bet = 500
@@ -88,13 +90,13 @@ class App(Scene):
             self.objects.append(obj)
 
     def draw_table_cards(self):
-        for i, card in enumerate(self.game_status.table_cards):
+        for i, card in enumerate(self.table.table_cards):
             obj = CardObject((650 + 130 * i, self.size[1] / 2 - 100), card, 0)
             self.objects.append(obj)
 
     def create_menu(self, role):
         if role == "main":
-            menu = MainMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
+            menu = MainMenu(self.frame_rate, self.size, self.screen, self.game, self.music_control)
         else:
-            menu = GameMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
+            menu = GameMenu(self.frame_rate, self.size, self.screen, self.game, self.music_control)
         menu.create_menu()

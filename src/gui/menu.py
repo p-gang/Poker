@@ -7,10 +7,10 @@ from src.gui.scene import Scene
 class MainMenu(Scene):
     done = False
 
-    def __init__(self, frame_rate, size, screen, game_control, music_control):
+    def __init__(self, frame_rate, size, screen, game, music_control):
         super().__init__(frame_rate, size, screen)
 
-        self.game_control = game_control
+        self.game = game
         self.music_control = music_control
         self.BUTTONS = (('PLAY', self.on_play),
                         ('QUIT', self.on_quit))
@@ -73,7 +73,7 @@ class MainMenu(Scene):
     def on_play(self, button):
         self.done = True
 
-        self.game_control.start_game()
+        self.game.start_game()
 
     def on_sound(self, button):
         self.music_control.toggle()
@@ -85,8 +85,8 @@ class MainMenu(Scene):
 class GameMenu(MainMenu):
     done = False
 
-    def __init__(self, frame_rate, size, screen, game_control, music_control):
-        super().__init__(frame_rate, size, screen, game_control, music_control)
+    def __init__(self, frame_rate, size, screen, game, music_control):
+        super().__init__(frame_rate, size, screen, game, music_control)
 
         self.BUTTONS = (('Resume', self.on_resume),
                         ('New game', self.on_play),
@@ -110,15 +110,15 @@ class GameMenu(MainMenu):
 
     def on_back(self, button):
         self.on_resume()
-        menu = MainMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
+        menu = MainMenu(self.frame_rate, self.size, self.screen, self.game, self.music_control)
         menu.create_menu()
 
 
 class TurnMenu(GameMenu):
     done = False
 
-    def __init__(self, frame_rate, size, screen, game_control, music_control, game_status, objects):
-        super().__init__(frame_rate, size, screen, game_control, music_control)
+    def __init__(self, frame_rate, size, screen, game, music_control, game_status, objects):
+        super().__init__(frame_rate, size, screen, game, music_control)
 
         self.objects = objects
         self.game_status = game_status
@@ -137,7 +137,7 @@ class TurnMenu(GameMenu):
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                menu = GameMenu(self.frame_rate, self.size, self.screen, self.game_control, self.music_control)
+                menu = GameMenu(self.frame_rate, self.size, self.screen, self.game, self.music_control)
                 menu.create_menu()
             elif event.type in (pygame.MOUSEBUTTONDOWN,
                                 pygame.MOUSEBUTTONUP,

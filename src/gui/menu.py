@@ -162,12 +162,12 @@ class TurnMenu(GameMenu):
 
     def on_call(self, button):
         self.done = True
-        # self.game_status.call()
+        self.game_status.call(self.game_status.players[0])
 
     def on_check(self, button):
         self.done = True
-        # self.game_status.check()
+        self.game_status.call(self.game_status.players[0])
 
     def on_fold(self, button):
         self.done = True
-        # self.game_status.fold()
+        self.game_status.call(self.game_status.players[0])

@@ -109,8 +109,7 @@ class Table:
         que = self.set_up_que()
         for player in que:
             if player.index == 0:
-                for i in range(10000000000):
-                    pass
+                pass
             else:
                 player.bot_decision(self)
 

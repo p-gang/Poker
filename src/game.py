@@ -27,7 +27,7 @@ class Game:
         self.status = "game_cards_taken"
         #self.status = "bot_turn"
         #if self.table.playerturn:
-        #self.status = "player_turn"
+        self.status = "player_turn"
         #self.table.turn()
         #self.status = "game_cards_taken"
         #self.status = "player_turn"
